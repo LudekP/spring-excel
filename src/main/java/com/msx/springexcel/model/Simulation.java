@@ -25,10 +25,15 @@ public class Simulation {
     private String Col_04;
     @JsonProperty("Col_05")
     private String Col_05;
+    @JsonProperty("Col_06")
     private String Col_06;
+    @JsonProperty("Col_07")
     private String Col_07;
+    @JsonProperty("Col_08")
     private String Col_08;
+    @JsonProperty("Col_09")
     private String Col_09;
+    @JsonProperty("Col_10")
     private String Col_10;
     private String Col_11;
     private String Col_12;
