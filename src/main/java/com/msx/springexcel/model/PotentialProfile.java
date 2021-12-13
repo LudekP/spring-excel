@@ -18,6 +18,9 @@ public class PotentialProfile {
     @JsonProperty("excel_row_id")
     private String excelRowId;
 
+    @JsonProperty("offer_region_id")
+    private String offerRegionId;
+
     @JsonProperty("product_line_cd")
     private String productLineCd;
 
