@@ -4,7 +4,6 @@ public enum PotentialProfileHeader {
 
     EXCEL_ROW_ID ("row ID"),
     OFFER_REGION_ID ("Offer Region Id"),
-
     PRODUCT_LINE_CD ("ProductLine"),
     NW_PRODUCT_CD ("NetworkProduct"),
     BILL_TYPE_CD ("Billing Type"),
@@ -23,17 +22,17 @@ public enum PotentialProfileHeader {
     AVG_WGHT_LB ("Average weight LB"),
     PIECES_PER_SHIP ("Pieces per SHP"),
     CLRNCE_TYPE_CD ("Clearance Type"),
-    OFFER_REGION_ID ("OO"),
-    OFFER_REGION_ID ("OB"),
-    OFFER_REGION_ID ("YY"),
-    OFFER_REGION_ID ("YB"),
-    OFFER_REGION_ID ("AA"),
-    OFFER_REGION_ID ("WW"),
-    OFFER_REGION_ID ("WC"),
-    OFFER_REGION_ID ("W1"),
-    OFFER_REGION_ID ("9"),
-    OFFER_REGION_ID ("10");
-    
+    SURCHARGE_OO_CD ("OO"),
+    SURCHARGE_OB_CD ("OB"),
+    SURCHARGE_YY_CD ("YY"),
+    SURCHARGE_YB_CD ("YB"),
+    SURCHARGE_AA_CD ("AA"),
+    SURCHARGE_WW_CD ("WW"),
+    SURCHARGE_WC_CD ("WC"),
+    SURCHARGE_W1_CD ("W1"),
+    SURCHARGE_9_CD ("9"),
+    SURCHARGE_10_CD ("10");
+
     private String value;
 
     PotentialProfileHeader(String value){
