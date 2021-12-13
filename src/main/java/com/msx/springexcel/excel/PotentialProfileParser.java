@@ -7,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -56,6 +57,7 @@ public class PotentialProfileParser {
     public static List<PotentialProfile> excelToPotentialProfileList(InputStream is) throws IOException {
 
         List<PotentialProfile> potentialProfileList = new ArrayList();
+        PotentialProfile potentialProfile;
 
         DataFormatter formatter = new DataFormatter();
         Workbook workbook = new XSSFWorkbook(is);
@@ -66,12 +68,33 @@ public class PotentialProfileParser {
         log.info(String.valueOf(totalRows));
 
         Map<String, Integer> map;
-        Row row = sheet.getRow(0);
+        Row header = sheet.getRow(0);
 
-        map = getHeader(row);
-
+        map = getHeader(header);
         log.info(String.valueOf(map));
 
+        for (Row row: sheet) {
+
+            // Skip header row
+            if (row.getRowNum() == 0) continue;
+
+            potentialProfile = new PotentialProfile();
+
+            String cell = formatter.formatCellValue(row.getCell(map.get("ProductLine")));
+            log.info("ProductLine - " + cell);
+            cell = formatter.formatCellValue(row.getCell(map.get("Shipments")));
+            log.info("Shipments - " + cell);
+            cell = formatter.formatCellValue(row.getCell(map.get("OB")));
+            log.info("OB - " + cell);
+
+            Cell percent = row.getCell(map.get("OB"));
+            //Double number = percent.getNumericCellValue();
+            if (percent != null) {
+                log.info("OB - " + percent.getNumericCellValue());
+            }
+        }
+
+        workbook.close();
 
         return potentialProfileList;
     }
