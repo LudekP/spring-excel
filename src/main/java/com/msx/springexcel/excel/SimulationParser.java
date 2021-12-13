@@ -12,18 +12,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 public class SimulationParser {
 
-    public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     private static final String SHEET = "Sheet1";
-
-    public static boolean isExcelFormat(MultipartFile file) {
-
-        return TYPE.equals(file.getContentType());
-    }
 
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
