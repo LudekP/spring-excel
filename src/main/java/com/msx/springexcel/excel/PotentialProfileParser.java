@@ -1,13 +1,15 @@
 package com.msx.springexcel.excel;
 
 import com.msx.springexcel.model.PotentialProfile;
+import com.opencsv.CSVWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -39,13 +41,11 @@ public class PotentialProfileParser {
     }
 
     private static Map<String, Integer> getHeader(Row row) {
-        DataFormatter formatter = new DataFormatter();
-        Map<String, Integer> header = new HashMap<String,Integer>();
 
-        short minColIx = row.getFirstCellNum(); //get the first column index for a row
-        short maxColIx = row.getLastCellNum(); //get the last column index for a row
-        for(short colIx=minColIx; colIx<maxColIx; colIx++) {
-            Cell cell = row.getCell(colIx);
+        DataFormatter formatter = new DataFormatter();
+        Map<String, Integer> header = new HashMap<>();
+
+        for (Cell cell : row) {
             header.put(formatter.formatCellValue(cell),cell.getColumnIndex());
         }
 
@@ -57,7 +57,8 @@ public class PotentialProfileParser {
     public static List<PotentialProfile> excelToPotentialProfileList(InputStream is) throws IOException {
 
         List<PotentialProfile> potentialProfileList = new ArrayList();
-        PotentialProfile potentialProfile;
+        PotentialProfile potentialProfile = new PotentialProfile();
+        int cellIdx;
 
         DataFormatter formatter = new DataFormatter();
         Workbook workbook = new XSSFWorkbook(is);
@@ -73,28 +74,157 @@ public class PotentialProfileParser {
         map = getHeader(header);
         log.info(String.valueOf(map));
 
+        // Create csv file
+
+        CSVWriter csvWriter = new CSVWriter(new FileWriter("E:/Git/potential.csv", StandardCharsets.UTF_8),'|', CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+
+
         for (Row row: sheet) {
 
             // Skip header row
             if (row.getRowNum() == 0) continue;
 
-            potentialProfile = new PotentialProfile();
+            cellIdx = 0;
 
-            String cell = formatter.formatCellValue(row.getCell(map.get("ProductLine")));
-            log.info("ProductLine - " + cell);
-            cell = formatter.formatCellValue(row.getCell(map.get("Shipments")));
-            log.info("Shipments - " + cell);
-            cell = formatter.formatCellValue(row.getCell(map.get("OB")));
-            log.info("OB - " + cell);
+            for (Cell cell : row) {
 
-            Cell percent = row.getCell(map.get("OB"));
-            //Double number = percent.getNumericCellValue();
-            if (percent != null) {
-                log.info("OB - " + percent.getNumericCellValue());
+                potentialProfile.setExcelRowId(String.valueOf(row.getRowNum()));
+
+                switch (cellIdx) {
+
+                    case 1:
+                        potentialProfile.setOfferRegionId(formatter.formatCellValue(cell));
+                        break;
+
+                    case 2:
+                        potentialProfile.setProductLineCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 3:
+                        potentialProfile.setNwProductCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 4:
+                        potentialProfile.setBillTypeCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 5:
+                        potentialProfile.setPricingCtryCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 6:
+                        potentialProfile.setLclProductCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 7:
+                        potentialProfile.setOrigRegionCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 8:
+                        potentialProfile.setOrigCtryCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 9:
+                        potentialProfile.setOrigSvcArea(formatter.formatCellValue(cell));
+                        break;
+
+                    case 10:
+                        potentialProfile.setOrigZipCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 11:
+                        potentialProfile.setDestRegionCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 12:
+                        potentialProfile.setDestCtryCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 13:
+                        potentialProfile.setDestSvcArea(formatter.formatCellValue(cell));
+                        break;
+
+                    case 14:
+                        potentialProfile.setDestZipCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 15:
+                        potentialProfile.setShipCnt(formatter.formatCellValue(cell));
+                        break;
+
+                    case 16:
+                        potentialProfile.setAvgWghtKg(formatter.formatCellValue(cell));
+                        break;
+
+                    case 17:
+                        potentialProfile.setAvgWghtLb(formatter.formatCellValue(cell));
+                        break;
+
+                    case 18:
+                        potentialProfile.setPiecesPerShip(formatter.formatCellValue(cell));
+                        break;
+
+                    case 19:
+                        potentialProfile.setClrnceTypeCd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 20:
+                        potentialProfile.setSurcharge1Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 21:
+                        potentialProfile.setSurcharge2Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 22:
+                        potentialProfile.setSurcharge3Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 23:
+                        potentialProfile.setSurcharge4Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 24:
+                        potentialProfile.setSurcharge5Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 25:
+                        potentialProfile.setSurcharge6Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 27:
+                        potentialProfile.setSurcharge7Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 28:
+                        potentialProfile.setSurcharge8Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 29:
+                        potentialProfile.setSurcharge9Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    case 30:
+                        potentialProfile.setSurcharge10Cd(formatter.formatCellValue(cell));
+                        break;
+
+                    default:
+                        break;
+                }
+
+                cellIdx++;
+
             }
+
+            log.info(potentialProfile.toString());
+
+            csvWriter.writeNext(potentialProfile.getString());
+            potentialProfile.reset();
+
         }
 
         workbook.close();
+        csvWriter.close();
 
         return potentialProfileList;
     }

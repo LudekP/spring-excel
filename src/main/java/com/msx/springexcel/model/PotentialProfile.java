@@ -1,81 +1,112 @@
 package com.msx.springexcel.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.util.List;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class PotentialProfile {
 
-    @JsonProperty("excel_row_id")
     private String excelRowId;
-
-    @JsonProperty("offer_region_id")
     private String offerRegionId;
-
-    @JsonProperty("product_line_cd")
     private String productLineCd;
-
-    @JsonProperty("nw_product_cd")
     private String nwProductCd;
-
-    @JsonProperty("bill_type_cd")
     private String billTypeCd;
-
-    @JsonProperty("pricing_ctry_cd")
     private String pricingCtryCd;
-
-    @JsonProperty("lcl_product_cd")
     private String lclProductCd;
-
-    @JsonProperty("orig_region_cd")
     private String origRegionCd;
-
-    @JsonProperty("orig_ctry_cd")
     private String origCtryCd;
-
-    @JsonProperty("orig_svc_area")
     private String origSvcArea;
-
-    @JsonProperty("orig_zip_cd")
     private String origZipCd;
-
-    @JsonProperty("dest_region_cd")
     private String destRegionCd;
-
-    @JsonProperty("dest_ctry_cd")
     private String destCtryCd;
-
-    @JsonProperty("dest_svc_area")
     private String destSvcArea;
-
-    @JsonProperty("dest_zip_cd")
     private String destZipCd;
-
-    @JsonProperty("ship_cnt")
-    private BigDecimal shipCnt;
-
-    @JsonProperty("avg_wght_kg")
-    private BigDecimal avgWghtKg;
-
-    @JsonProperty("avg_wght_lb")
-    private BigDecimal avgWghtLb;
-
-    @JsonProperty("pieces_per_ship")
-    private BigDecimal piecesPerShip;
-
-    @JsonProperty("clrnce_type_cd")
+    private String shipCnt;
+    private String avgWghtKg;
+    private String avgWghtLb;
+    private String piecesPerShip;
     private String clrnceTypeCd;
+    private String surcharge1Cd;
+    private String surcharge2Cd;
+    private String surcharge3Cd;
+    private String surcharge4Cd;
+    private String surcharge5Cd;
+    private String surcharge6Cd;
+    private String surcharge7Cd;
+    private String surcharge8Cd;
+    private String surcharge9Cd;
+    private String surcharge10Cd;
 
-    @JsonProperty("surchg_cd_list")
-    private List<PotentialProfileSrcharge> surchgCdList;
+    public void reset() {
+        excelRowId = null;
+        offerRegionId = null;
+        productLineCd = null;
+        nwProductCd = null;
+        billTypeCd = null;
+        pricingCtryCd = null;
+        lclProductCd = null;
+        origRegionCd = null;
+        origCtryCd = null;
+        origSvcArea = null;
+        origZipCd = null;
+        destRegionCd = null;
+        destCtryCd = null;
+        destSvcArea = null;
+        destZipCd = null;
+        shipCnt = null;
+        avgWghtKg = null;
+        avgWghtLb = null;
+        piecesPerShip = null;
+        clrnceTypeCd = null;
+        surcharge1Cd = null;
+        surcharge2Cd = null;
+        surcharge3Cd = null;
+        surcharge4Cd = null;
+        surcharge5Cd = null;
+        surcharge6Cd = null;
+        surcharge7Cd = null;
+        surcharge8Cd = null;
+        surcharge9Cd = null;
+        surcharge10Cd = null;
+    }
+
+    public String[] getString() {
+
+        return new String[]{excelRowId,
+                offerRegionId,
+                productLineCd,
+                nwProductCd,
+                billTypeCd,
+                pricingCtryCd,
+                lclProductCd,
+                origRegionCd,
+                origCtryCd,
+                origSvcArea,
+                origZipCd,
+                destRegionCd,
+                destCtryCd,
+                destSvcArea,
+                destZipCd,
+                shipCnt,
+                avgWghtKg,
+                avgWghtLb,
+                piecesPerShip,
+                clrnceTypeCd,
+                surcharge1Cd,
+                surcharge2Cd,
+                surcharge3Cd,
+                surcharge4Cd,
+                surcharge5Cd,
+                surcharge6Cd,
+                surcharge7Cd,
+                surcharge8Cd,
+                surcharge9Cd,
+                surcharge10Cd
+        };
+
+    }
 
 }
