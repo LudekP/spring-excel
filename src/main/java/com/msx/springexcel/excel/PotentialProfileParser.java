@@ -5,11 +5,15 @@ import com.msx.springexcel.model.PotentialProfile;
 import com.msx.springexcel.model.PotentialProfileFile;
 import com.opencsv.CSVWriter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.*;
 
 
@@ -46,15 +50,31 @@ public class PotentialProfileParser {
         Map<String, Integer> header = new HashMap<>();
 
         for (Cell cell : headerRow) {
-            header.put(cell.getStringCellValue(),cell.getColumnIndex());
+            header.put(formatter.formatCellValue(cell),cell.getColumnIndex());
         }
 
         return header;
 
     }
 
+    private static String convertPercentToNumber(DecimalFormat decimalFormat, String percent) {
+
+        if (!StringUtils.isBlank(percent)) {
+            try {
+                return String.valueOf(decimalFormat.parse(percent));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+
+    }
+
 
     public static PotentialProfileFile excelToPotentialProfileList(File file) throws IOException {
+
+        DecimalFormat decimalFormat = new DecimalFormat("0%");
+        decimalFormat.setParseBigDecimal(true);
 
         log.info("File header");
         PotentialProfileFile potentialProfileFile = new PotentialProfileFile();
@@ -64,14 +84,17 @@ public class PotentialProfileParser {
         log.info("Start processing");
 
         PotentialProfile potentialProfile = new PotentialProfile();
-        int cellIdx;
 
         DataFormatter formatter = new DataFormatter();
         log.info("Streaming");
 
         try (InputStream is = new FileInputStream(file)) {
 
-            Workbook workbook = StreamingReader.builder().rowCacheSize(100).bufferSize(4096).open(is);
+            Workbook workbook = StreamingReader.builder()
+                    .rowCacheSize(100)
+                    .bufferSize(4096)
+                    .open(is);
+                    //new XSSFWorkbook(is);
 
             log.info("Create csv file");
 
@@ -85,20 +108,21 @@ public class PotentialProfileParser {
             for (Row row : sheet) {
 
                 // Process header row
-                log.info("Process header row");
                 if (row.getRowNum() == 0) {
+                    log.info("Process header row");
                     potentialProfileFile.setHeader(getHeader(row));
                     log.info(String.valueOf(potentialProfileFile.getHeader()));
                     continue;
                 }
 
-                cellIdx = 0;
+                //
+                for (int i = 0; i < potentialProfileFile.getHeader().size(); i++) {
 
-                for (Cell cell : row) {
+                    Cell cell = row.getCell(i);
 
                     potentialProfile.setExcelRowId(String.valueOf(row.getRowNum()));
 
-                    switch (cellIdx) {
+                    switch (i) {
 
                         case 1:
                             potentialProfile.setOfferRegionId(formatter.formatCellValue(cell));
@@ -200,27 +224,25 @@ public class PotentialProfileParser {
                             potentialProfile.setSurcharge6Cd(formatter.formatCellValue(cell));
                             break;
 
-                        case 27:
+                        case 26:
                             potentialProfile.setSurcharge7Cd(formatter.formatCellValue(cell));
                             break;
 
-                        case 28:
+                        case 27:
                             potentialProfile.setSurcharge8Cd(formatter.formatCellValue(cell));
                             break;
 
-                        case 29:
+                        case 28:
                             potentialProfile.setSurcharge9Cd(formatter.formatCellValue(cell));
                             break;
 
-                        case 30:
-                            potentialProfile.setSurcharge10Cd(formatter.formatCellValue(cell));
+                        case 29:
+                            potentialProfile.setSurcharge10Cd(convertPercentToNumber(decimalFormat, formatter.formatCellValue(cell)));
                             break;
 
                         default:
                             break;
                     }
-
-                    cellIdx++;
 
                 }
 
