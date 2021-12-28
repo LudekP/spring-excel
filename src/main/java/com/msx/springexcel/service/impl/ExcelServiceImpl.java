@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msx.springexcel.excel.PotentialProfileParser;
 import com.msx.springexcel.excel.SimulationParser;
 import com.msx.springexcel.model.PotentialProfile;
+import com.msx.springexcel.model.PotentialProfileFile;
 import com.msx.springexcel.model.Simulation;
 import com.msx.springexcel.service.ExcelService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +51,10 @@ public class ExcelServiceImpl implements ExcelService {
     public void convertAndValidatePotentialProfileFile(MultipartFile file) {
         try {
             log.info("Start parsing excel file");
-            List<PotentialProfile> potentialProfileList = PotentialProfileParser.excelToPotentialProfileList(file.getInputStream());
+            PotentialProfileFile potentialProfileFile = PotentialProfileParser.excelToPotentialProfileList(new File("E:/Git/Potential Profile v3.xlsx"));
 
             log.info("Store file as json");
-            mapper.writeValue(new File("E:/Git/potential_profile.json"), potentialProfileList);
+            //log.info(potentialProfileFile.getPath().toString());
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse simulation data: " + e.getMessage());
